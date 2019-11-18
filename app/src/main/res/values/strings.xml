@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TripMaker</string>
+    <string name="first_name_txt">First Name</string>
+    <string name="last_name_txt">Last Name</string>
+    <string name="email_txt">Email</string>
+    <string name="password_txt">Password</string>
+    <string name="female_rb_txt">Female</string>
+    <string name="register_btn_txt">Register</string>
+    <string name="already_acct_txt">Already have account?</string>
+    <string name="login_txt">Login</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_accnt_tv">Don\'t have an account yet?</string>
 </resources>
