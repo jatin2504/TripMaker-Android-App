@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activites.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="331dp"
-        android:layout_height="177dp"
+        android:layout_width="293dp"
+        android:layout_height="113dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="15dp"
@@ -28,105 +28,4 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--    <EditText-->
-<!--        android:id="@+id/fnET"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/first_name_txt"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="214dp" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/lnET"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/last_name_txt"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="286dp" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/emailET"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="15dp"-->
-<!--        android:layout_marginEnd="15dp"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/email_txt"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="357dp" />-->
-
-<!--    <EditText-->
-<!--        android:id="@+id/passwordET"-->
-<!--        android:layout_width="382dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:ems="10"-->
-<!--        android:hint="@string/password_txt"-->
-<!--        android:inputType="textPersonName"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        tools:layout_editor_absoluteY="429dp" />-->
-
-<!--    <RadioGroup-->
-<!--        android:id="@+id/genderRG"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        tools:layout_editor_absoluteX="135dp"-->
-<!--        tools:layout_editor_absoluteY="576dp">-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/maleRB"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Male" />-->
-
-<!--        <RadioButton-->
-<!--            android:id="@+id/femaleRB"-->
-<!--            style="@style/Widget.AppCompat.CompoundButton.RadioButton"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/female_rb_txt" />-->
-<!--    </RadioGroup>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/registerBtn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/mybutton"-->
-<!--        android:text="@string/register_btn_txt"-->
-<!--        tools:layout_editor_absoluteX="162dp"-->
-<!--        tools:layout_editor_absoluteY="501dp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/alreadyHave"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/already_acct_txt"-->
-<!--        android:textColor="#000000"-->
-<!--        tools:layout_editor_absoluteX="134dp"-->
-<!--        tools:layout_editor_absoluteY="635dp" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/loginTv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/login_txt"-->
-<!--        android:textColor="#000000"-->
-<!--        android:textSize="18sp"-->
-<!--        tools:layout_editor_absoluteX="184dp"-->
-<!--        tools:layout_editor_absoluteY="681dp" />-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

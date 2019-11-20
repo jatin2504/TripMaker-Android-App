@@ -1,4 +1,4 @@
-package com.example.tripmaker;
+package com.example.tripmaker.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,12 +10,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.example.tripmaker.R;
+import com.example.tripmaker.models.User;
 
 public class LoginFragment extends Fragment {
 
     public static final String FRAGMENT_STATE = "Login";
 
     private OnFragmentInteractionListener mListener;
+
+    private EditText email;
+    private EditText password;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -47,6 +54,25 @@ public class LoginFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        email = getView().findViewById(R.id.loginEmailET);
+        password = getView().findViewById(R.id.loginPasswordET);
+
+        getView().findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: validate input fields
+                User user = new User(email.getText().toString(), password.getText().toString());
+                mListener.loginUser(user);
+            }
+        });
+
+        getView().findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.signInWithGoogle();
+            }
+        });
+
         getActivity().findViewById(R.id.registerTV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,8 +87,12 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
-    interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener {
         void onFragmentChange(String state);
+
+        void loginUser(User user);
+
+        void signInWithGoogle();
     }
 
 

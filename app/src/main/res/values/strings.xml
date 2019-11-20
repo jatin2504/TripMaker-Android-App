@@ -6,7 +6,7 @@
     <string name="password_txt">Password</string>
     <string name="female_rb_txt">Female</string>
     <string name="register_btn_txt">Register</string>
-    <string name="already_acct_txt">Already have account?</string>
+    <string name="already_acct_txt">Already have an account?</string>
     <string name="login_txt">Login</string>
 
     <!-- TODO: Remove or change this placeholder text -->
