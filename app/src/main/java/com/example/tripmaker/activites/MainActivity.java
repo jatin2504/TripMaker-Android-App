@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                 if (task.isSuccessful()) {
                     if (!task.getResult().isEmpty()) {
                         Log.d("MainActivity", "User already exists");
+                        Intent i = new Intent(MainActivity.this, DashboardActivity.class);
+                        startActivity(i);
+                        finish();
                     } else {
                         saveUserData(user);
                     }

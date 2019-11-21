@@ -11,16 +11,210 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_weight="1"
-        android:background="@drawable/header_gradient" />
+        android:background="@drawable/header_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/profileIV"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="75dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view"
-        app:srcCompat="@drawable/userprofile" />
+        app:srcCompat="@drawable/userprofilefilled" />
+
+    <ImageView
+        android:id="@+id/profileEditIV"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/edit" />
+
+    <ImageView
+        android:id="@+id/profileBackIV"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/leftarrow" />
+
+    <TextView
+        android:id="@+id/updateProfImageTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/update_profile_picture"
+        android:textColor="#0C89CE"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileIV" />
+
+    <TextView
+        android:id="@+id/profFnLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="@string/first_name_txt"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/profLnLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updateProfImageTV" />
+
+    <TextView
+        android:id="@+id/profFnVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Jatin"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/profFnLabel"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/profFnLabel" />
+
+    <TextView
+        android:id="@+id/profLnLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/last_name_txt"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/profEmailLabel"
+        app:layout_constraintStart_toStartOf="@+id/profFnLabel"
+        app:layout_constraintTop_toBottomOf="@+id/profFnLabel" />
+
+    <TextView
+        android:id="@+id/profLnVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gupte"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/profLnLabel"
+        app:layout_constraintStart_toStartOf="@+id/profFnVal"
+        app:layout_constraintTop_toTopOf="@+id/profLnLabel" />
+
+    <TextView
+        android:id="@+id/profEmailVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="jgupte@uncc.edu"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/profEmailLabel"
+        app:layout_constraintStart_toStartOf="@+id/profLnVal"
+        app:layout_constraintTop_toTopOf="@+id/profEmailLabel" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="131dp" />
+
+    <TextView
+        android:id="@+id/profEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email_txt"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/profGenderLabel"
+        app:layout_constraintStart_toStartOf="@+id/profLnLabel"
+        app:layout_constraintTop_toBottomOf="@+id/profLnLabel" />
+
+    <TextView
+        android:id="@+id/profGenderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gender"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/profLnLabel"
+        app:layout_constraintTop_toBottomOf="@+id/profEmailLabel" />
+
+    <TextView
+        android:id="@+id/profGenderVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/female_rb_txt"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/profGenderLabel"
+        app:layout_constraintStart_toStartOf="@+id/profEmailVal"
+        app:layout_constraintTop_toTopOf="@+id/profGenderLabel" />
+
+    <EditText
+        android:id="@+id/profFnET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:ems="10"
+        android:hint="@string/first_name_txt"
+        android:inputType="textPersonName"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/profFnLabel"
+        app:layout_constraintStart_toStartOf="@+id/profFnVal"
+        app:layout_constraintTop_toTopOf="@+id/profFnLabel" />
+
+    <EditText
+        android:id="@+id/profLnET"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:ems="10"
+        android:hint="@string/last_name_txt"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/profLnLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/profLnLabel" />
+
+    <RadioGroup
+        android:id="@+id/profGenderRG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/profGenderLabel"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/profGenderLabel">
+
+        <RadioButton
+            android:id="@+id/profMaleRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/male"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <RadioButton
+            android:id="@+id/profFemaleRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/female_rb_txt"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
