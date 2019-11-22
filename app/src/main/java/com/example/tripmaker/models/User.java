@@ -1,6 +1,7 @@
 package com.example.tripmaker.models;
 
 public class User {
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -8,12 +9,21 @@ public class User {
     private Gender gender;
     private String imageUrl;
 
+
     public String getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public User(String firstName, String lastName, String email, String password, Gender gender) {
@@ -29,8 +39,17 @@ public class User {
         this.password = password;
     }
 
+    public User(String id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public User() {
     }
+
+
 
     public String getFirstName() {
         return firstName;

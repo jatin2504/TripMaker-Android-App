@@ -15,4 +15,11 @@
     <string name="update_profile_picture">Update Profile Picture</string>
     <string name="gender">Gender</string>
     <string name="male">Male</string>
+    <string name="create_new_trip">Create New Trip</string>
+    <string name="trip_name">Trip Name</string>
+    <string name="place_name">Location</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="upload_img">Upload Image</string>
+    <string name="add_members">Add Members</string>
 </resources>
