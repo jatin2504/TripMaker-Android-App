@@ -3,6 +3,7 @@ package com.example.tripmaker.activites;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -83,5 +84,11 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
     public void onActionButtonClicked() {
         Intent i = new Intent(this, NewTripActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Toast.makeText(this, "Activity Resumed", Toast.LENGTH_SHORT).show();
     }
 }

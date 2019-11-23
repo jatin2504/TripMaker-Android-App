@@ -3,7 +3,9 @@ package com.example.tripmaker.activites;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.example.tripmaker.R;
 import com.example.tripmaker.fragments.LoginFragment;
 import com.example.tripmaker.fragments.RegistrationFragment;
+import com.example.tripmaker.models.Gender;
 import com.example.tripmaker.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -28,10 +31,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteractionListener, LoginFragment.OnFragmentInteractionListener {
 
@@ -82,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Log.d("MainActivity", "signInWithEmail:success");
+                            existsUser(user);
                             Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                             startActivity(i);
                             finish();
@@ -100,6 +106,16 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    private void storeUserInSharedPred(User user) {
+        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("userObj", json);
+        prefsEditor.commit();
+    }
+
     private void existsUser(final User user) {
         CollectionReference reference = db.collection("users");
         Query query = reference.whereEqualTo("email", user.getEmail());
@@ -109,6 +125,15 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                 if (task.isSuccessful()) {
                     if (!task.getResult().isEmpty()) {
                         Log.d("MainActivity", "User already exists");
+                        User user = new User();
+                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                        user.setId(documentSnapshot.getId());
+                        user.setLastName((documentSnapshot.getData().get("lastName") != null) ? documentSnapshot.getData().get("lastName").toString() : "");
+                        user.setEmail((documentSnapshot.getData().get("email") != null) ? documentSnapshot.getData().get("email").toString() : "");
+                        user.setFirstName((documentSnapshot.getData().get("firstName") != null) ? documentSnapshot.getData().get("firstName").toString() : "");
+                        user.setGender((documentSnapshot.getData().get("gender") != null) ? (Gender) documentSnapshot.getData().get("gender") : null);
+                        user.setImageUrl((documentSnapshot.getData().get("imageUrl") != null) ? documentSnapshot.getData().get("imageUrl").toString() : null);
+                        storeUserInSharedPred(user);
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
                         finish();
@@ -166,11 +191,12 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                 });
     }
 
-    public void saveUserData(User user) {
-        DocumentReference newUserRef = db.collection("users").document();
-        newUserRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void saveUserData(final User user) {
+        db.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(DocumentReference documentReference) {
+                user.setId(documentReference.getId());
+                storeUserInSharedPred(user);
                 Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                 startActivity(i);
                 finish();

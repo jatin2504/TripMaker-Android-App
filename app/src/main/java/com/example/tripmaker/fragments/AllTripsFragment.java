@@ -16,8 +16,11 @@ import android.view.ViewGroup;
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.TripAdapter;
 import com.example.tripmaker.models.Trip;
+import com.google.firebase.Timestamp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AllTripsFragment extends Fragment {
 
@@ -35,15 +38,19 @@ public class AllTripsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tripList = new ArrayList<>();
-        tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", "11-11-2019"));
-        tripList.add(new Trip("Created By: John Doe", "New York City Tour", "11-15-2019"));
-        tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", "12-21-2019"));
-        tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", "11-11-2019"));
-        tripList.add(new Trip("Created By: John Doe", "New York City Tour", "11-15-2019"));
-        tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", "12-21-2019"));
-        tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", "11-11-2019"));
-        tripList.add(new Trip("Created By: John Doe", "New York City Tour", "11-15-2019"));
-        tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", "12-21-2019"));
+        try {
+            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
