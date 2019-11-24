@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        testing chat activity
+//        Intent i1 = new Intent(MainActivity.this, ChatActivity.class);
+//        startActivity(i1);
+//        finish();
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         if (mAuth.getCurrentUser() == null) {

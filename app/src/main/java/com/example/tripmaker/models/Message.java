@@ -9,6 +9,14 @@ public class Message {
     private Timestamp timeStamp;
     private String sender;
 
+    public Message(String id, String text, String imgUrl, Timestamp timeStamp, String sender) {
+        this.id = id;
+        this.text = text;
+        this.imgUrl = imgUrl;
+        this.timeStamp = timeStamp;
+        this.sender = sender;
+    }
+
     public String getId() {
         return id;
     }
@@ -47,5 +55,6 @@ public class Message {
 
     public void setSender(String sender) {
         this.sender = sender;
+
     }
 }
