@@ -11,7 +11,7 @@ public class User {
     private String password;
     private Gender gender;
     private String imageUrl;
-    private List<String> trips = new ArrayList<>();
+    private List<JoinedTrip> trips = new ArrayList<>();
 
 
     public String getImageUrl() {
@@ -22,7 +22,7 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
-    public void addTrip(String trip) {
+    public void addTrip(JoinedTrip trip) {
         trips.add(trip);
     }
 
@@ -96,5 +96,13 @@ public class User {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public List<JoinedTrip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(List<JoinedTrip> trips) {
+        this.trips = trips;
     }
 }

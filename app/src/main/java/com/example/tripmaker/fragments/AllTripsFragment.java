@@ -16,7 +16,10 @@ import android.view.ViewGroup;
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.TripAdapter;
 import com.example.tripmaker.models.Trip;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +30,7 @@ public class AllTripsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     ArrayList<Trip> tripList;
     RecyclerView recyclerView;
-
+    private FirebaseFirestore db;
 
     public AllTripsFragment() {
         // Required empty public constructor
@@ -38,6 +41,7 @@ public class AllTripsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tripList = new ArrayList<>();
+        db = FirebaseFirestore.getInstance();
         try {
             tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
             tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
@@ -52,6 +56,16 @@ public class AllTripsFragment extends Fragment {
             e.printStackTrace();
         }
 
+    }
+
+    private void getAllTrips() {
+        db.collection("trips").orderBy("date").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                tripList = (ArrayList<Trip>) queryDocumentSnapshots.toObjects(Trip.class);
+
+            }
+        });
     }
 
     @Override

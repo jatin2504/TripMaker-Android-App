@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.MemberAdapter;
 import com.example.tripmaker.models.ChatRoom;
+import com.example.tripmaker.models.JoinedTrip;
 import com.example.tripmaker.models.Location;
 import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
@@ -214,7 +215,10 @@ public class NewTripActivity extends AppCompatActivity {
 
         for (User user : selectedUsers) {
             DocumentReference userRef = db.collection("users").document(user.getId());
-            batch.update(userRef, "trips", FieldValue.arrayUnion(tripId));
+            JoinedTrip joinedTrip = new JoinedTrip();
+            joinedTrip.setTripId(tripId);
+            joinedTrip.setJoinedDate(new Timestamp(new Date()));
+            batch.update(userRef, "trips", FieldValue.arrayUnion(joinedTrip));
         }
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
