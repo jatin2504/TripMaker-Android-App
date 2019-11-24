@@ -3,6 +3,7 @@ package com.example.tripmaker.activites;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -15,7 +16,7 @@ import com.example.tripmaker.fragments.UsersFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements AllTripsFragment.OnFragmentInteractionListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -77,5 +78,17 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onActionButtonClicked() {
+        Intent i = new Intent(this, NewTripActivity.class);
+        startActivity(i);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Toast.makeText(this, "Activity Resumed", Toast.LENGTH_SHORT).show();
     }
 }

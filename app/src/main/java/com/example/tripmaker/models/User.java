@@ -1,12 +1,18 @@
 package com.example.tripmaker.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private Gender gender;
     private String imageUrl;
+    private List<String> trips = new ArrayList<>();
+
 
     public String getImageUrl() {
         return imageUrl;
@@ -14,6 +20,18 @@ public class User {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void addTrip(String trip) {
+        trips.add(trip);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public User(String firstName, String lastName, String email, String password, Gender gender) {
@@ -29,8 +47,16 @@ public class User {
         this.password = password;
     }
 
+    public User(String id, String firstName, String lastName, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public User() {
     }
+
 
     public String getFirstName() {
         return firstName;

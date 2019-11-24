@@ -39,7 +39,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Trip trip = mData.get(position);
         holder.createdByTV.setText(trip.getCreatedByName());
-        holder.dateTV.setText(trip.getDate());
+        holder.dateTV.setText(trip.getDate().toString());
         holder.titleTV.setText(trip.getTitle());
 
     }

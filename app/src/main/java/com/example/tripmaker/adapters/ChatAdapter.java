@@ -78,11 +78,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         //
         //
         String userID="1";
-        if (TextUtils.isEmpty(messages.get(position).getMessageText()) && TextUtils.equals(messages.get(position).getSenderID(),userID)) {
+        if (TextUtils.isEmpty(messages.get(position).getText()) && TextUtils.equals(messages.get(position).getSender(),userID)) {
             return TYPE_SENT_IMAGE;
-        } else if(TextUtils.isEmpty(messages.get(position).getImageUrl()) && TextUtils.equals(messages.get(position).getSenderID(),userID)){
+        } else if(TextUtils.isEmpty(messages.get(position).getImgUrl()) && TextUtils.equals(messages.get(position).getSender(),userID)){
             return TYPE_SENT_TEXT;
-        } else if(TextUtils.isEmpty(messages.get(position).getMessageText()) && !TextUtils.equals(messages.get(position).getSenderID(),userID)){
+        } else if(TextUtils.isEmpty(messages.get(position).getText()) && !TextUtils.equals(messages.get(position).getText(),userID)){
             return TYPE_RECEIVED_IMAGE;
         }
         else return TYPE_RECEIVED_TEXT;
@@ -122,7 +122,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         public void setDetails(Message message){
-            textView.setText(" "+message.getMessageText()+" ");
+            textView.setText(" "+message.getText()+" ");
         }
     }
     public static class SentTextViewHolder extends RecyclerView.ViewHolder {
@@ -132,7 +132,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             textView = itemView.findViewById(R.id.sentTextView);
         }
         public void setDetails(Message message){
-            textView.setText(" "+message.getMessageText()+" ");
+            textView.setText(" "+message.getText()+" ");
         }
     }
     public static class ReceivedImageViewHolder extends RecyclerView.ViewHolder {
@@ -142,7 +142,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imageView = itemView.findViewById(R.id.receivedImageView);
         }
         public void setDetails(Message message){
-            Picasso.get().load(message.getImageUrl()).into(imageView);
+            Picasso.get().load(message.getImgUrl()).into(imageView);
         }
     }
     public static class SentImageViewHolder extends RecyclerView.ViewHolder {
@@ -152,7 +152,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             imageView = itemView.findViewById(R.id.sentImageView);
         }
         public void setDetails(Message message){
-            Picasso.get().load(message.getImageUrl()).into(imageView);
+            Picasso.get().load(message.getImgUrl()).into(imageView);
         }
     }
 }

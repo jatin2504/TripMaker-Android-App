@@ -30,18 +30,6 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         List<Message> messages = new ArrayList<>();
-        messages.add(new Message("1","hi",""));
-        messages.add(new Message("2","","https://rukminim1.flixcart.com/image/416/416/av-media/movies/e/d/v/gangajal-original-imadb44ctqf58efz.jpeg?q=70"));
-        messages.add(new Message("3","hi",""));
-        messages.add(new Message("4","","https://rukminim1.flixcart.com/image/416/416/av-media/movies/e/d/v/gangajal-original-imadb44ctqf58efz.jpeg?q=70"));
-        messages.add(new Message("1","tuzi aai ghal. next image",""));
-        messages.add(new Message("2","tu ghal na mc",""));
-        messages.add(new Message("3","choko ghe",""));
-        messages.add(new Message("4","","https://rukminim1.flixcart.com/image/416/416/av-media/movies/e/d/v/gangajal-original-imadb44ctqf58efz.jpeg?q=70"));
-        messages.add(new Message("1","","https://rukminim1.flixcart.com/image/416/416/av-media/movies/e/d/v/gangajal-original-imadb44ctqf58efz.jpeg?q=70"));
-        messages.add(new Message("2","pucchi chatya",""));
-        messages.add(new Message("3","yed gandya",""));
-        messages.add(new Message("4","baylya bhokachya",""));
         mAdapter = new ChatAdapter(messages);
         recyclerView.setAdapter(mAdapter);
     }

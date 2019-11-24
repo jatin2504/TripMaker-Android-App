@@ -1,5 +1,8 @@
 package com.example.tripmaker.models;
 
+import com.google.firebase.Timestamp;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trip {
@@ -7,9 +10,10 @@ public class Trip {
     private String createdByName;
     private String title;
     private String coverPhotoUrl;
+    private String locationName;
     private Location location;
-    private String date;
-    private List<String> members;
+    private Timestamp date;
+    private List<String> members = new ArrayList<>();
 
     public Trip(String createdByEmail, String createdByName, String title, String coverPhotoUrl, Location location, List<String> members) {
         this.createdByEmail = createdByEmail;
@@ -20,20 +24,33 @@ public class Trip {
         this.members = members;
     }
 
-    public Trip(String createdByName, String title, String date) {
+    public Trip(String createdByName, String title, Timestamp date) {
         this.createdByName = createdByName;
         this.title = title;
         this.date = date;
+
     }
 
     public Trip() {
     }
 
-    public String getDate() {
+    public void addMembers(String member) {
+        this.members.add(member);
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
