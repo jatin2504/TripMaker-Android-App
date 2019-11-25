@@ -12,25 +12,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.TripAdapter;
+import com.example.tripmaker.models.Location;
 import com.example.tripmaker.models.Trip;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class AllTripsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     ArrayList<Trip> tripList;
     RecyclerView recyclerView;
+    TripAdapter tripAdapter;
     private FirebaseFirestore db;
+    private ProgressBar progressBar;
 
     public AllTripsFragment() {
         // Required empty public constructor
@@ -42,28 +50,34 @@ public class AllTripsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         tripList = new ArrayList<>();
         db = FirebaseFirestore.getInstance();
-        try {
-            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: Jatin Gupte", "Smokey Mountains", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Doe", "New York City Tour", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-            tripList.add(new Trip("Created By: John Carter", "Yosemite National Park", new Timestamp(new SimpleDateFormat("MM-dd-yyyy").parse("11-11-2019"))));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void getAllTrips() {
+        progressBar.setVisibility(View.VISIBLE);
         db.collection("trips").orderBy("date").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                tripList = (ArrayList<Trip>) queryDocumentSnapshots.toObjects(Trip.class);
 
+                for (DocumentSnapshot documentSnapshots : queryDocumentSnapshots.getDocuments()) {
+                    Map<String, Object> map = documentSnapshots.getData();
+                    Trip trip = new Trip();
+                    trip.setId(documentSnapshots.getId());
+                    Map<String, Object> locationMap = (Map<String, Object>) map.get("location");
+                    trip.setLocation(new Location((double) locationMap.get("lat"), (double) locationMap.get("lng")));
+                    trip.setCoverPhotoUrl(map.get("coverPhotoUrl").toString());
+                    trip.setMembers((ArrayList<String>) map.get("members"));
+                    trip.setCreatedByEmail(map.get("createdByEmail").toString());
+                    trip.setCreatedByName(map.get("createdByName").toString());
+                    trip.setLocationName(map.get("locationName").toString());
+                    trip.setTitle(map.get("title").toString());
+                    trip.setDate((Timestamp) map.get("date"));
+                    tripList.add(trip);
+                }
+                // tripList = (ArrayList<Trip>) queryDocumentSnapshots.toObjects(Trip.class);
+                //   tripAdapter.notifyDataSetChanged();
+                tripAdapter = new TripAdapter(tripList, getContext());
+                recyclerView.setAdapter(tripAdapter);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -73,9 +87,9 @@ public class AllTripsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_trips, container, false);
         recyclerView = v.findViewById(R.id.allTripsRV);
-        TripAdapter tripAdapter = new TripAdapter(tripList, getContext());
+        progressBar = v.findViewById(R.id.allTripsPB);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(tripAdapter);
+        getAllTrips();
         return v;
     }
 

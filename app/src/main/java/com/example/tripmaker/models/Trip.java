@@ -2,17 +2,19 @@ package com.example.tripmaker.models;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Trip {
+public class Trip implements Serializable {
+    private String id;
     private String createdByEmail;
     private String createdByName;
     private String title;
     private String coverPhotoUrl;
     private String locationName;
     private Location location;
-    private Timestamp date;
+    transient private Timestamp date;
     private List<String> members = new ArrayList<>();
 
     public Trip(String createdByEmail, String createdByName, String title, String coverPhotoUrl, Location location, List<String> members) {
@@ -32,6 +34,14 @@ public class Trip {
     }
 
     public Trip() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void addMembers(String member) {

@@ -1,6 +1,7 @@
 package com.example.tripmaker.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripmaker.R;
+import com.example.tripmaker.activites.ChatActivity;
 import com.example.tripmaker.models.Trip;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
 
@@ -37,10 +41,21 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Trip trip = mData.get(position);
+        final Trip trip = mData.get(position);
         holder.createdByTV.setText(trip.getCreatedByName());
-        holder.dateTV.setText(trip.getDate().toString());
+        Date tripDate = trip.getDate().toDate();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+        holder.dateTV.setText(simpleDateFormat.format(tripDate));
         holder.titleTV.setText(trip.getTitle());
+        holder.chatIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(mContext, ChatActivity.class);
+                i.putExtra("tripObj", trip);
+                mContext.startActivity(i);
+            }
+        });
+
 
     }
 

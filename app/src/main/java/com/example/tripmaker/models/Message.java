@@ -9,6 +9,9 @@ public class Message {
     private Timestamp timeStamp;
     private String sender;
 
+    public Message() {
+    }
+
     public Message(String id, String text, String imgUrl, Timestamp timeStamp, String sender) {
         this.id = id;
         this.text = text;
