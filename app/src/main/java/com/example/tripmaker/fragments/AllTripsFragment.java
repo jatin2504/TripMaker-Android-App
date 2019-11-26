@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class AllTripsFragment extends Fragment {
                     trip.setId(documentSnapshots.getId());
                     Map<String, Object> locationMap = (Map<String, Object>) map.get("location");
                     trip.setLocation(new Location((double) locationMap.get("lat"), (double) locationMap.get("lng")));
-                    trip.setCoverPhotoUrl(map.get("coverPhotoUrl").toString());
+                    trip.setCoverPhotoUrl(map.get("coverPhotoUrl") !=null ?map.get("coverPhotoUrl").toString():"");
                     trip.setMembers((ArrayList<String>) map.get("members"));
                     trip.setCreatedByEmail(map.get("createdByEmail").toString());
                     trip.setCreatedByName(map.get("createdByName").toString());
