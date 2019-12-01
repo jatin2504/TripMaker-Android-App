@@ -25,5 +25,6 @@
     <string name="longitude">Longitude</string>
     <string name="upload_img">Upload Image</string>
     <string name="add_members">Add Members</string>
+    <string name="user_name_label">User Name</string>
 
 </resources>

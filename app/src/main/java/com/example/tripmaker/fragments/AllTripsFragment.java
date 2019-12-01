@@ -54,6 +54,7 @@ public class AllTripsFragment extends Fragment {
     }
 
     private void getAllTrips() {
+        tripList = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
         db.collection("trips").orderBy("date").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
