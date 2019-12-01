@@ -7,19 +7,59 @@
     android:background="#F2F2F2"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/receivedTextView"
-        android:layout_width="0dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/textview_border"
-        android:text="@string/message_txt"
+        android:layout_margin="7dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="40dp"
+        android:elevation="10dp"
+        app:cardBackgroundColor="@color/colorAccent"
+        app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chatRecvMsgUser"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:maxWidth="300dp"
+                android:padding="5dp"
+                android:text="TextView"
+                android:textColor="#000000"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/recvMsgTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:maxWidth="350dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="50dp"
+                android:text="This is sample message"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/chatRecvMsgTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:text="11:00 PM"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

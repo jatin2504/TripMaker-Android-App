@@ -1,5 +1,6 @@
 package com.example.tripmaker.activites;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,7 +19,8 @@ import com.example.tripmaker.models.Message;
 import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
 import com.example.tripmaker.utils.Constants;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -65,20 +67,12 @@ public class ChatActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         messageView = findViewById(R.id.chatMsgTV);
 
-        recyclerView = (RecyclerView) findViewById(R.id.chatRecyclerView);
+        recyclerView = findViewById(R.id.chatRecyclerView);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        // recyclerView.setStac
 
-        messages.add(new Message("1", "This message is not sent by me.", null, new Timestamp(new Date()), "2"));
-        messages.add(new Message("1", "I sent this message.", null, new Timestamp(new Date()), "1"));
-        messages.add(new Message("1", null, "https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", new Timestamp(new Date()), "1"));
-        messages.add(new Message("1", null, "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500", new Timestamp(new Date()), "2"));
-
-//        mAdapter = new ChatAdapter(messages);
-//        recyclerView.setAdapter(mAdapter);
 
         getAllMessages();
 
@@ -95,10 +89,28 @@ public class ChatActivity extends AppCompatActivity {
 
                     //TODO: Replace Hard Coded Trip ID
                     DocumentReference msgRef = db.collection("chats").document(currentTrip.getId());
-                    msgRef.update("messages", FieldValue.arrayUnion(msgToSend));
+                    msgRef.update("messages", FieldValue.arrayUnion(msgToSend)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
                     messageView.setText("");
 
                 }
+            }
+        });
+
+
+        findViewById(R.id.chatCameraIcon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }

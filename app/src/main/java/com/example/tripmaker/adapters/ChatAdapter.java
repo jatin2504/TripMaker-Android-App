@@ -92,28 +92,37 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     public static class ReceivedTextViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView message;
+        public TextView userName;
+        public TextView time;
 
         public ReceivedTextViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.receivedTextView);
+            message = itemView.findViewById(R.id.recvMsgTextView);
+            userName = itemView.findViewById(R.id.chatRecvMsgUser);
+            time = itemView.findViewById(R.id.chatRecvMsgTime);
         }
 
-        public void setDetails(Message message) {
-            textView.setText(" " + message.getText() + " ");
+        public void setDetails(Message item) {
+            message.setText(item.getText());
+            userName.setText(item.getSender());
+            time.setText("11:15 PM");
         }
     }
 
     public static class SentTextViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView message;
+        public TextView time;
 
         public SentTextViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.sentTextView);
+            message = itemView.findViewById(R.id.sentTextView);
+            time = itemView.findViewById(R.id.chatMsgTime);
         }
 
-        public void setDetails(Message message) {
-            textView.setText(" " + message.getText() + " ");
+        public void setDetails(Message item) {
+            message.setText(item.getText());
+            time.setText("11:15 PM");
         }
     }
 

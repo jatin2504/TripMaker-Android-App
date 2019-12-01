@@ -7,6 +7,16 @@
     android:background="#f2f2f2"
     tools:context=".activites.ChatActivity">
 
+    <ImageView
+        android:id="@+id/chatCameraIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/sendMsgBtn"
+        app:srcCompat="@drawable/camera" />
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
@@ -21,53 +31,24 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="96dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/chatMsgTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:stackFromEnd="true" />
 
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatRecyclerView" />
-
     <EditText
         android:id="@+id/chatMsgTV"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/send_message_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatRecyclerView" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="63dp"
-        android:layout_height="63dp"
-        app:layout_constraintBottom_toBottomOf="@+id/chatMsgTV"
-        app:layout_constraintEnd_toStartOf="@+id/sendMsgBtn"
-        app:layout_constraintTop_toTopOf="@+id/chatMsgTV"
-        tools:srcCompat="@drawable/camera" />
-
-    <Button
-        android:id="@+id/sendMsgBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="@string/send_message"
-        app:layout_constraintBottom_toBottomOf="@+id/chatMsgTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/chatMsgTV" />
+        app:layout_constraintEnd_toStartOf="@+id/chatCameraIcon"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/chatBackImg"
@@ -91,5 +72,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/chatBackImg"
         app:layout_constraintStart_toEndOf="@+id/chatBackImg"
         app:layout_constraintTop_toTopOf="@+id/chatBackImg" />
+
+    <ImageView
+        android:id="@+id/sendMsgBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/sendbutton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

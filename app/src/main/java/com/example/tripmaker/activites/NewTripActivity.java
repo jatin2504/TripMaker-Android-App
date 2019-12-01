@@ -232,7 +232,7 @@ public class NewTripActivity extends AppCompatActivity {
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setName(name);
         chatRoom.setTripId(tripId);
-        db.collection("chats").add(chatRoom);
+        db.collection("chats").document(tripId).set(chatRoom);
     }
 
     private void showPicker() {
