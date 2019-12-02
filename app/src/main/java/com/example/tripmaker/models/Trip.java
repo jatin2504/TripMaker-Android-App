@@ -15,9 +15,9 @@ public class Trip implements Serializable {
     private String locationName;
     private Location location;
     transient private Timestamp date;
-    private List<String> members = new ArrayList<>();
+    private List<Member> members = new ArrayList<>();
 
-    public Trip(String createdByEmail, String createdByName, String title, String coverPhotoUrl, Location location, List<String> members) {
+    public Trip(String createdByEmail, String createdByName, String title, String coverPhotoUrl, Location location, List<Member> members) {
         this.createdByEmail = createdByEmail;
         this.createdByName = createdByName;
         this.title = title;
@@ -44,7 +44,7 @@ public class Trip implements Serializable {
         this.id = id;
     }
 
-    public void addMembers(String member) {
+    public void addMembers(Member member) {
         this.members.add(member);
     }
 
@@ -104,11 +104,11 @@ public class Trip implements Serializable {
         this.location = location;
     }
 
-    public List<String> getMembers() {
+    public List<Member> getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(List<Member> members) {
         this.members = members;
     }
 }

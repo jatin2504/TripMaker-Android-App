@@ -27,6 +27,7 @@ import com.example.tripmaker.adapters.MemberAdapter;
 import com.example.tripmaker.models.ChatRoom;
 import com.example.tripmaker.models.JoinedTrip;
 import com.example.tripmaker.models.Location;
+import com.example.tripmaker.models.Member;
 import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
 import com.google.android.gms.tasks.Continuation;
@@ -34,6 +35,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -73,7 +75,7 @@ public class NewTripActivity extends AppCompatActivity {
     public static RecyclerView recyclerView;
     public static RecyclerView.Adapter mAdapter;
     public static RecyclerView.LayoutManager layoutManager;
-
+    private User userObjSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,11 @@ public class NewTripActivity extends AppCompatActivity {
         placeNameET = findViewById(R.id.placeNameET);
         latET = findViewById(R.id.latET);
         lngET = findViewById(R.id.lngET);
+
+        SharedPreferences mPrefs = getSharedPreferences("mypref", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("userObj", "");
+        userObjSharedPref = gson.fromJson(json, User.class);
 
         recyclerView = findViewById(R.id.memberTripsRV);
         recyclerView.setHasFixedSize(true);
@@ -170,10 +177,7 @@ public class NewTripActivity extends AppCompatActivity {
 
     private void createTrip() {
         progressBar.setVisibility(View.VISIBLE);
-        SharedPreferences mPrefs = getSharedPreferences("mypref", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("userObj", "");
-        User userObjSharedPref = gson.fromJson(json, User.class);
+
 
         final String tripName = tripNameET.getText().toString().trim();
         String locationName = placeNameET.getText().toString().trim();
@@ -190,9 +194,12 @@ public class NewTripActivity extends AppCompatActivity {
         trip.setCreatedByName(userObjSharedPref.getFirstName() + " " + userObjSharedPref.getLastName()); //TODO: Take from shared pref.
         trip.setCreatedByEmail(userObjSharedPref.getEmail()); //TODO: Take from shared pref.
         trip.setCoverPhotoUrl(coverPicUrl);
-        List<String> members = new ArrayList<>();
+        List<Member> members = new ArrayList<>();
         for (User user : selectedUsers) {
-            members.add(user.getEmail());
+            Member member = new Member();
+            member.setId(user.getId());
+            member.setName(user.getFirstName() + " " + user.getLastName());
+            members.add(member);
         }
         trip.setMembers(members);
 
@@ -270,10 +277,12 @@ public class NewTripActivity extends AppCompatActivity {
                     ArrayList<User> userList = new ArrayList<>();
                     for (DocumentSnapshot documentSnapshots : queryDocumentSnapshots.getDocuments()) {
                         Map<String, Object> map = documentSnapshots.getData();
-
-                        User u = new User(documentSnapshots.getId(), map.get("firstName").toString(), map.get("lastName").toString(), map.get("email").toString());
-                        userList.add(u);
+                        if (!map.get("email").toString().equals(userObjSharedPref.getEmail())) {
+                            User u = new User(documentSnapshots.getId(), map.get("firstName").toString(), map.get("lastName").toString(), map.get("email").toString());
+                            userList.add(u);
+                        }
                     }
+
                     allUsers = userList;
                     progressBar.setVisibility(View.INVISIBLE);
                     showPicker();

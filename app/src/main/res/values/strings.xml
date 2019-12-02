@@ -16,7 +16,7 @@
     <string name="gender">Gender</string>
     <string name="male">Male</string>
     <string name="message_txt" />
-    <string name="send_message" >Send</string>
+    <string name="send_message">Send</string>
     <string name="send_message_text" />
     <string name="create_new_trip">Create New Trip</string>
     <string name="trip_name">Trip Name</string>
@@ -25,5 +25,10 @@
     <string name="longitude">Longitude</string>
     <string name="upload_img">Upload Image</string>
     <string name="add_members">Add Members</string>
+    <string name="longitude_txt">Longitude:</string>
+    <string name="latitude_txt">Latitude:</string>
+    <string name="location_txt">Location:</string>
+    <string name="members_tv">Members</string>
+    <string name="join_trip_txt">Join Trip</string>
 
 </resources>

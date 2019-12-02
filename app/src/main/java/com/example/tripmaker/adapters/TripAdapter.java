@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripmaker.R;
-import com.example.tripmaker.activites.ChatActivity;
+import com.example.tripmaker.activites.TripDetailsActivity;
 import com.example.tripmaker.models.Trip;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +22,7 @@ import java.util.Date;
 public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
 
     Context mContext;
-    private ArrayList<Trip> mData;
+    private static ArrayList<Trip> mData;
 
     public TripAdapter(ArrayList<Trip> mData, Context mContext) {
         this.mData = mData;
@@ -39,6 +39,7 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         return viewHolder;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Trip trip = mData.get(position);
@@ -47,14 +48,16 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
         holder.dateTV.setText(simpleDateFormat.format(tripDate));
         holder.titleTV.setText(trip.getTitle());
-        holder.chatIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(mContext, ChatActivity.class);
-                i.putExtra("tripObj", trip);
-                mContext.startActivity(i);
-            }
-        });
+        holder.position = position;
+        holder.context = mContext;
+//        holder.chatIV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(mContext, ChatActivity.class);
+//                i.putExtra("tripObj", trip);
+//                mContext.startActivity(i);
+//            }
+//        });
 
 
     }
@@ -70,6 +73,8 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         TextView createdByTV;
         ImageView mapIV;
         ImageView chatIV;
+        int position;
+        Context context;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,8 +82,17 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
             titleTV = itemView.findViewById(R.id.tripTitle);
             dateTV = itemView.findViewById(R.id.tripDateTV);
             createdByTV = itemView.findViewById(R.id.createdByTV);
-            mapIV = itemView.findViewById(R.id.mapIV);
-            chatIV = itemView.findViewById(R.id.chatIV);
+//            mapIV = itemView.findViewById(R.id.mapIV);
+//            chatIV = itemView.findViewById(R.id.chatIV);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, TripDetailsActivity.class);
+                    i.putExtra("tripObj", TripAdapter.mData.get(position));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }

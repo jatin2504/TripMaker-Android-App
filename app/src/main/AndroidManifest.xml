@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activites.ChatActivity"></activity>
-        <activity android:name=".activites.NewTripActivity"></activity>
+        <activity android:name=".activites.TripDetailsActivity"></activity>
+        <activity android:name=".activites.ChatActivity" />
+        <activity android:name=".activites.NewTripActivity" />
         <activity android:name=".activites.ProfileActivity" />
         <activity android:name=".activites.DashboardActivity" />
         <activity android:name=".activites.MainActivity">

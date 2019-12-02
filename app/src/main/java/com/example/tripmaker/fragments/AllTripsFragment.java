@@ -1,7 +1,6 @@
 package com.example.tripmaker.fragments;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -9,15 +8,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.TripAdapter;
 import com.example.tripmaker.models.Location;
+import com.example.tripmaker.models.Member;
 import com.example.tripmaker.models.Trip;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
@@ -25,11 +25,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 public class AllTripsFragment extends Fragment {
@@ -65,8 +62,16 @@ public class AllTripsFragment extends Fragment {
                     trip.setId(documentSnapshots.getId());
                     Map<String, Object> locationMap = (Map<String, Object>) map.get("location");
                     trip.setLocation(new Location((double) locationMap.get("lat"), (double) locationMap.get("lng")));
-                    trip.setCoverPhotoUrl(map.get("coverPhotoUrl") !=null ?map.get("coverPhotoUrl").toString():"");
-                    trip.setMembers((ArrayList<String>) map.get("members"));
+                    trip.setCoverPhotoUrl(map.get("coverPhotoUrl") != null ? map.get("coverPhotoUrl").toString() : "");
+                    ArrayList<Member> members = new ArrayList<>();
+                    ArrayList<HashMap<String, String>> membersMapList = (ArrayList<HashMap<String, String>>) map.get("members");
+                    for (HashMap<String, String> item : membersMapList) {
+                        Member member = new Member();
+                        member.setName(item.get("name"));
+                        member.setId(item.get("id"));
+                        members.add(member);
+                    }
+                    trip.setMembers(members);
                     trip.setCreatedByEmail(map.get("createdByEmail").toString());
                     trip.setCreatedByName(map.get("createdByName").toString());
                     trip.setLocationName(map.get("locationName").toString());
@@ -87,10 +92,6 @@ public class AllTripsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_trips, container, false);
-        recyclerView = v.findViewById(R.id.allTripsRV);
-        progressBar = v.findViewById(R.id.allTripsPB);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        getAllTrips();
         return v;
     }
 
@@ -114,7 +115,12 @@ public class AllTripsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getView().findViewById(R.id.actionButtonAllTrips).setOnClickListener(new View.OnClickListener() {
+        recyclerView = getView().findViewById(R.id.allTripsRV);
+        progressBar = getView().findViewById(R.id.allTripsPB);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Toast.makeText(getContext(), "All trips on create view", Toast.LENGTH_SHORT).show();
+        getAllTrips();
+        getView().findViewById(R.id.actionBtnChat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.onActionButtonClicked();

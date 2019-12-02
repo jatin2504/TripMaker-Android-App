@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                         if (task.isSuccessful()) {
                             Log.d("MainActivity", "signInWithEmail:success");
                             existsUser(user);
-                            Intent i = new Intent(MainActivity.this, DashboardActivity.class);
-                            startActivity(i);
-                            finish();
                         } else {
                             Log.w("MainActivity", "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
@@ -113,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
     }
 
     private void storeUserInSharedPred(User user) {
-        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = preferences.edit();
 
         Gson gson = new Gson();
@@ -137,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                         user.setLastName((documentSnapshot.getData().get("lastName") != null) ? documentSnapshot.getData().get("lastName").toString() : "");
                         user.setEmail((documentSnapshot.getData().get("email") != null) ? documentSnapshot.getData().get("email").toString() : "");
                         user.setFirstName((documentSnapshot.getData().get("firstName") != null) ? documentSnapshot.getData().get("firstName").toString() : "");
-                        user.setGender((documentSnapshot.getData().get("gender") != null) ? (Gender) documentSnapshot.getData().get("gender") : null);
+                        user.setGender((documentSnapshot.getData().get("gender") != null) ? Gender.valueOf((String) documentSnapshot.getData().get("gender")) : null);
                         user.setImageUrl((documentSnapshot.getData().get("imageUrl") != null) ? documentSnapshot.getData().get("imageUrl").toString() : null);
                         storeUserInSharedPred(user);
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);

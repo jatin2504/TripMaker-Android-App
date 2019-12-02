@@ -1,6 +1,7 @@
 package com.example.tripmaker.activites;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-
+        Toast.makeText(this, "On Create called.", Toast.LENGTH_SHORT).show();
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         allTripsTab = findViewById(R.id.allTripsTab);
@@ -65,6 +66,9 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
             @Override
             public void onClick(View view) {
                 MainActivity.mAuth.signOut();
+                SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
+                SharedPreferences.Editor prefsEditor = preferences.edit();
+                prefsEditor.clear();
                 Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -80,6 +84,9 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
         });
     }
 
+    private void clearPreferences() {
+    }
+
     @Override
     public void onActionButtonClicked() {
         Intent i = new Intent(this, NewTripActivity.class);
@@ -87,8 +94,8 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
     }
 
     @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        Toast.makeText(this, "Activity Resumed", Toast.LENGTH_SHORT).show();
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, "Activity restarted", Toast.LENGTH_SHORT).show();
     }
 }
