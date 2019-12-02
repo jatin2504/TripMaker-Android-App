@@ -30,5 +30,6 @@
     <string name="location_txt">Location:</string>
     <string name="members_tv">Members</string>
     <string name="join_trip_txt">Join Trip</string>
+    <string name="user_name_label">User Name</string>
 
 </resources>
