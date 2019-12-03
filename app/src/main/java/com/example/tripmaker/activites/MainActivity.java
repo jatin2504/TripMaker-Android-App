@@ -14,6 +14,8 @@ import com.example.tripmaker.R;
 import com.example.tripmaker.fragments.LoginFragment;
 import com.example.tripmaker.fragments.RegistrationFragment;
 import com.example.tripmaker.models.Gender;
+import com.example.tripmaker.models.JoinedTrip;
+import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements RegistrationFragment.OnFragmentInteractionListener, LoginFragment.OnFragmentInteractionListener {
 
@@ -129,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                     if (!task.getResult().isEmpty()) {
                         Log.d("MainActivity", "User already exists");
                         User user = new User();
+                        List<JoinedTrip> joinedTrips = new ArrayList<>();
                         DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
                         user.setId(documentSnapshot.getId());
                         user.setLastName((documentSnapshot.getData().get("lastName") != null) ? documentSnapshot.getData().get("lastName").toString() : "");
@@ -136,6 +144,13 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                         user.setFirstName((documentSnapshot.getData().get("firstName") != null) ? documentSnapshot.getData().get("firstName").toString() : "");
                         user.setGender((documentSnapshot.getData().get("gender") != null) ? Gender.valueOf((String) documentSnapshot.getData().get("gender")) : null);
                         user.setImageUrl((documentSnapshot.getData().get("imageUrl") != null) ? documentSnapshot.getData().get("imageUrl").toString() : null);
+                        for(HashMap<String, Object> l1:(ArrayList<HashMap<String,Object>>)documentSnapshot.getData().get("trips")){
+                            JoinedTrip jt1 = new JoinedTrip();
+                            jt1.setTripId(l1.get("tripId").toString());
+                            jt1.setJoinedDate((Timestamp) l1.get("joinedDate"));
+                            joinedTrips.add(jt1);
+                        }
+                        user.setTrips(joinedTrips);
                         storeUserInSharedPred(user);
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
