@@ -31,5 +31,6 @@
     <string name="members_tv">Members</string>
     <string name="join_trip_txt">Join Trip</string>
     <string name="user_name_label">User Name</string>
+    <string name="sender_name">sender name</string>
 
 </resources>

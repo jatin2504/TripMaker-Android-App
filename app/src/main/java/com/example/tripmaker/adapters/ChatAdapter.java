@@ -76,12 +76,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        //
-        //
-        //      TODO: User info from fragments
-        //
-        //
-        //
         String userID = user.getEmail();
         if (TextUtils.isEmpty(messages.get(position).getText()) && TextUtils.equals(messages.get(position).getSender(), userID)) {
             return TYPE_SENT_IMAGE;
@@ -146,15 +140,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class ReceivedImageViewHolder extends RecyclerView.ViewHolder {
+        public TextView senderNameTV;
         public ImageView imageView;
 
         public ReceivedImageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.receivedImageView);
+            senderNameTV = itemView.findViewById(R.id.senderNameTV);
         }
 
         public void setDetails(Message message) {
             Picasso.get().load(message.getImgUrl()).into(imageView);
+            senderNameTV.setText(message.getSender());
         }
     }
 

@@ -140,7 +140,7 @@ public class ProfileActivity extends AppCompatActivity {
             GenderTV.setText(currentUser.getGender()!=null?currentUser.getGender().toString():"");
             firstNameET.setText(currentUser.getFirstName());
             lasrNameET.setText(currentUser.getLastName());
-            if(currentUser.getGender().equals(Gender.MALE))
+            if(currentUser.getGender()!= null && currentUser.getGender().equals(Gender.MALE))
                 maleRB.setChecked(true);
             else
                 femaleRB.setChecked(true);

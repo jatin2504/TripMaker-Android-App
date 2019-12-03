@@ -71,8 +71,6 @@ public class TripAdapter extends RecyclerView.Adapter<TripAdapter.ViewHolder> {
         TextView titleTV;
         TextView dateTV;
         TextView createdByTV;
-        ImageView mapIV;
-        ImageView chatIV;
         int position;
         Context context;
 

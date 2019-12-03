@@ -14,11 +14,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tripmaker.R;
 import com.example.tripmaker.adapters.ChatAdapter;
 import com.example.tripmaker.models.ChatRoom;
+import com.example.tripmaker.models.JoinedTrip;
 import com.example.tripmaker.models.Message;
 import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
@@ -60,6 +62,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private TextView messageView;
     private TextView titleTV;
+    private ImageView chatBackButtonIV;
     Trip currentTrip;
 
     @Override
@@ -73,6 +76,7 @@ public class ChatActivity extends AppCompatActivity {
 
         titleTV = findViewById(R.id.groupTitleTv);
         titleTV.setText(currentTrip.getTitle());
+        chatBackButtonIV = findViewById(R.id.chatBackImg);
 
         SharedPreferences mPrefs = getSharedPreferences("mypref", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -89,7 +93,9 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
+
         getAllMessages();
+        recyclerView.scrollToPosition(messages.size()-1);
 
         findViewById(R.id.sendMsgBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +120,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(takePicture, CAPTURE_IMAGE_CAMERA_CODE);
+            }
+        });
+
+        chatBackButtonIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -149,6 +162,15 @@ public class ChatActivity extends AppCompatActivity {
                     ChatRoom chatRoom = snapshot.toObject(ChatRoom.class);
                     messages = chatRoom.getMessages();
                     Collections.sort(messages, new Message.MessageSort());
+                    JoinedTrip joinedTrip = null;
+                    for (JoinedTrip jt:currentUser.getTrips()){
+                        if(currentTrip.getId().equals(jt.getTripId()))
+                            joinedTrip = jt;
+                    }
+                    if(joinedTrip!=null){
+                        messages = filterVisibleMessages(messages,joinedTrip);
+                    }
+
                     mAdapter = new ChatAdapter(messages, currentUser);
                     recyclerView.setAdapter(mAdapter);
                 } else {
@@ -157,6 +179,18 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private static List<Message> filterVisibleMessages(List<Message> messages,JoinedTrip joinedTrip) {
+        int position = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            Message m = messages.get(i);
+            if(m.getTimeStamp().getSeconds()>joinedTrip.getJoinedDate().getSeconds()){
+                position = i;
+                break;
+            }
+        }
+        return messages.subList(position,messages.size());
     }
 
 

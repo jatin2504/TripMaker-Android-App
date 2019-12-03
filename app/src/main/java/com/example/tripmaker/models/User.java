@@ -26,6 +26,10 @@ public class User {
         trips.add(trip);
     }
 
+    public void removeTrip(JoinedTrip joinedTrip){
+        this.trips.remove(joinedTrip);
+    }
+
     public String getId() {
         return id;
     }

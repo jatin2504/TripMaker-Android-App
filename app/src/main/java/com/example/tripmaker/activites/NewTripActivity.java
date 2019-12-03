@@ -175,9 +175,20 @@ public class NewTripActivity extends AppCompatActivity {
         });
     }
 
+    private void storeUserInsharedPreferences(User user) {
+
+        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("userObj", json);
+        prefsEditor.commit();
+
+    }
+
     private void createTrip() {
         progressBar.setVisibility(View.VISIBLE);
-
 
         final String tripName = tripNameET.getText().toString().trim();
         String locationName = placeNameET.getText().toString().trim();
@@ -209,6 +220,8 @@ public class NewTripActivity extends AppCompatActivity {
                 tripId = documentReference.getId();
                 updateUserCollection();
                 createChatGroup(tripName);
+                userObjSharedPref.addTrip(new JoinedTrip(tripId,Timestamp.now()));
+                storeUserInsharedPreferences(userObjSharedPref);
                 progressBar.setVisibility(View.INVISIBLE);
                 finish();
 

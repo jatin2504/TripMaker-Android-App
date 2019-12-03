@@ -152,6 +152,8 @@ public class TripDetailsActivity extends AppCompatActivity {
                         });
                     }
                 }
+                userObjSharedPref.removeTrip(tripToLeave);
+                storeUserInsharedPreferences(userObjSharedPref);
             }
         });
     }
@@ -217,10 +219,25 @@ public class TripDetailsActivity extends AppCompatActivity {
         });
     }
 
+    private void storeUserInsharedPreferences(User user) {
+
+        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = preferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        prefsEditor.putString("userObj", json);
+        prefsEditor.commit();
+
+    }
+
     private void joinTrip() {
         JoinedTrip joinedTrip = new JoinedTrip();
         joinedTrip.setTripId(currentTrip.getId());
-        joinedTrip.setJoinedDate(new Timestamp(new Date()));
+        joinedTrip.setJoinedDate(Timestamp.now());
+
+        userObjSharedPref.addTrip(joinedTrip);
+        storeUserInsharedPreferences(userObjSharedPref);
 
         db.collection("users").document(userObjSharedPref.getId()).update("trips", FieldValue.arrayUnion(joinedTrip)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
