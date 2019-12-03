@@ -52,7 +52,7 @@ import java.util.UUID;
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
+    private LinearLayoutManager layoutManager;
     private FirebaseFirestore db;
     private static final int CAPTURE_IMAGE_CAMERA_CODE = 1000;
     User currentUser;
@@ -60,7 +60,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private TextView messageView;
     private TextView titleTV;
-    Trip currentTrip;
+    public static Trip currentTrip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
 
