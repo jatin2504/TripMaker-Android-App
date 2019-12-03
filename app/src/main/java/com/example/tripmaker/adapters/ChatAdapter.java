@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tripmaker.R;
 import com.example.tripmaker.models.Message;
 import com.example.tripmaker.models.User;
+import com.google.firebase.Timestamp;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -90,6 +92,22 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else return TYPE_RECEIVED_TEXT;
     }
 
+    private static String timeStampStringRepresentation(Timestamp timeStamp) {
+        StringBuilder result = new StringBuilder();
+        String suffix = "";
+        result.append(new SimpleDateFormat("MMM").format(timeStamp.toDate())+" "+timeStamp.toDate().getDate()+" - ");
+        if(timeStamp.toDate().getHours()>12)
+        {
+            result.append(timeStamp.toDate().getHours() - 12);
+            suffix = "PM";
+        }
+        else
+        {
+            suffix = "AM";
+        }
+        result.append(":"+timeStamp.toDate().getMinutes()).append(" "+suffix);
+        return result.toString();
+    }
 
     public static class ReceivedTextViewHolder extends RecyclerView.ViewHolder {
         public TextView message;
@@ -106,7 +124,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setDetails(Message item) {
             message.setText(item.getText());
             userName.setText(item.getSender());
-            time.setText("11:15 PM");
+            time.setText(timeStampStringRepresentation(item.getTimeStamp()));
         }
     }
 
@@ -122,8 +140,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void setDetails(Message item) {
             message.setText(item.getText());
-            time.setText("11:15 PM");
+            time.setText(timeStampStringRepresentation(item.getTimeStamp()));
         }
+
     }
 
     public static class ReceivedImageViewHolder extends RecyclerView.ViewHolder {

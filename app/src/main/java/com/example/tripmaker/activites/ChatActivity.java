@@ -43,6 +43,8 @@ import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -98,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
                     msgToSend.setId(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                     msgToSend.setSender(currentUser.getEmail());
                     msgToSend.setText(msgTxt);
-                    msgToSend.setTimeStamp(new Timestamp(new Date()));
+                    msgToSend.setTimeStamp(Timestamp.now());
                     sendMessage(msgToSend);
                     messageView.setText("");
 
@@ -146,6 +148,7 @@ public class ChatActivity extends AppCompatActivity {
 
                     ChatRoom chatRoom = snapshot.toObject(ChatRoom.class);
                     messages = chatRoom.getMessages();
+                    Collections.sort(messages, new Message.MessageSort());
                     mAdapter = new ChatAdapter(messages, currentUser);
                     recyclerView.setAdapter(mAdapter);
                 } else {
@@ -189,7 +192,7 @@ public class ChatActivity extends AppCompatActivity {
                     msgToSend.setId(String.valueOf(Calendar.getInstance().getTimeInMillis()));
                     msgToSend.setSender(currentUser.getEmail());
                     msgToSend.setImgUrl(url);
-                    msgToSend.setTimeStamp(new Timestamp(new Date()));
+                    msgToSend.setTimeStamp(Timestamp.now());
                     sendMessage(msgToSend);
                 }
             }

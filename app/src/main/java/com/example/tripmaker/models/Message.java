@@ -2,6 +2,9 @@ package com.example.tripmaker.models;
 
 import com.google.firebase.Timestamp;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 public class Message {
     private String id;
     private String text;
@@ -59,5 +62,30 @@ public class Message {
     public void setSender(String sender) {
         this.sender = sender;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Message message = (Message) o;
+        return id.equals(message.id) &&
+                text.equals(message.text) &&
+                imgUrl.equals(message.imgUrl) &&
+                timeStamp.equals(message.timeStamp) &&
+                sender.equals(message.sender);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, imgUrl, timeStamp, sender);
+    }
+
+    public static class MessageSort implements Comparator<Message>{
+
+        @Override
+        public int compare(Message o1, Message o2) {
+            return o1.getTimeStamp().compareTo(o2.getTimeStamp());
+        }
     }
 }
