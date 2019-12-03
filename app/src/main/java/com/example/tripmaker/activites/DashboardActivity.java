@@ -96,6 +96,6 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
     @Override
     protected void onRestart() {
         super.onRestart();
-        Toast.makeText(this, "Activity restarted", Toast.LENGTH_SHORT).show();
+        pageAdapter.notifyDataSetChanged();
     }
 }

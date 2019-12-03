@@ -118,7 +118,8 @@ public class AllTripsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         recyclerView = getView().findViewById(R.id.allTripsRV);
         progressBar = getView().findViewById(R.id.allTripsPB);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         Toast.makeText(getContext(), "All trips on create view", Toast.LENGTH_SHORT).show();
         getAllTrips();
         getView().findViewById(R.id.actionBtnChat).setOnClickListener(new View.OnClickListener() {

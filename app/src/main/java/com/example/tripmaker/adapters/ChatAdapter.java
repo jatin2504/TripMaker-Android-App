@@ -11,9 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tripmaker.R;
+import com.example.tripmaker.activites.ChatActivity;
 import com.example.tripmaker.models.Message;
 import com.example.tripmaker.models.User;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -21,8 +25,10 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<Message> messages;
+    static List<Message> messages;
     User user;
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ;
     private static int TYPE_SENT_TEXT = 1;
     private static int TYPE_SENT_IMAGE = 2;
     private static int TYPE_RECEIVED_TEXT = 3;
@@ -36,7 +42,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view;
 
         if (viewType == TYPE_SENT_TEXT) {
@@ -61,11 +66,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (getItemViewType(position) == TYPE_RECEIVED_TEXT) {
             ((ReceivedTextViewHolder) holder).setDetails(messages.get(position));
         } else if (getItemViewType(position) == TYPE_SENT_TEXT) {
-            ((SentTextViewHolder) holder).setDetails(messages.get(position));
+            ((SentTextViewHolder) holder).setDetails(messages.get(position), position, this);
         } else if (getItemViewType(position) == TYPE_RECEIVED_IMAGE) {
             ((ReceivedImageViewHolder) holder).setDetails(messages.get(position));
         } else {
-            ((SentImageViewHolder) holder).setDetails(messages.get(position));
+            ((SentImageViewHolder) holder).setDetails(messages.get(position), position, this);
         }
     }
 
@@ -89,17 +94,14 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static String timeStampStringRepresentation(Timestamp timeStamp) {
         StringBuilder result = new StringBuilder();
         String suffix = "";
-        result.append(new SimpleDateFormat("MMM").format(timeStamp.toDate())+" "+timeStamp.toDate().getDate()+" - ");
-        if(timeStamp.toDate().getHours()>12)
-        {
+        result.append(new SimpleDateFormat("MMM").format(timeStamp.toDate()) + " " + timeStamp.toDate().getDate() + " - ");
+        if (timeStamp.toDate().getHours() > 12) {
             result.append(timeStamp.toDate().getHours() - 12);
             suffix = "PM";
-        }
-        else
-        {
+        } else {
             suffix = "AM";
         }
-        result.append(":"+timeStamp.toDate().getMinutes()).append(" "+suffix);
+        result.append(":" + timeStamp.toDate().getMinutes()).append(" " + suffix);
         return result.toString();
     }
 
@@ -125,16 +127,34 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static class SentTextViewHolder extends RecyclerView.ViewHolder {
         public TextView message;
         public TextView time;
+        public int position;
+        public ChatAdapter adapter;
 
         public SentTextViewHolder(@NonNull View itemView) {
             super(itemView);
             message = itemView.findViewById(R.id.sentTextView);
             time = itemView.findViewById(R.id.chatMsgTime);
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Message messageToDelete = messages.get(position);
+                    db.collection("chats").document(ChatActivity.currentTrip.getId()).update("messages", FieldValue.arrayRemove(messageToDelete)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            messages.remove(position - 1);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    return false;
+                }
+            });
         }
 
-        public void setDetails(Message item) {
-            message.setText(item.getText());
-            time.setText(timeStampStringRepresentation(item.getTimeStamp()));
+        public void setDetails(Message message, int position, ChatAdapter adapter) {
+            this.adapter = adapter;
+            this.position = position;
+            message.setText(message.getText());
+            time.setText(timeStampStringRepresentation(message.getTimeStamp()));
         }
 
     }
@@ -155,15 +175,35 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+
     public static class SentImageViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
+        public int position;
+        public ChatAdapter adapter;
 
         public SentImageViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.sentImageView);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Message messageToDelete = messages.get(position);
+                    db.collection("chats").document(ChatActivity.currentTrip.getId()).update("messages", FieldValue.arrayRemove(messageToDelete)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            messages.remove(position - 1);
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                    return false;
+                }
+            });
         }
 
-        public void setDetails(Message message) {
+        public void setDetails(Message message, int position, ChatAdapter adapter) {
+            this.adapter = adapter;
+            this.position = position;
             Picasso.get().load(message.getImgUrl()).into(imageView);
         }
     }
