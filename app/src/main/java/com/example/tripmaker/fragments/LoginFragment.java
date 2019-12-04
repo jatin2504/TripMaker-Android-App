@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.example.tripmaker.R;
 import com.example.tripmaker.models.User;
+import com.example.tripmaker.utils.StringValidation;
 
 public class LoginFragment extends Fragment {
 
@@ -60,7 +61,15 @@ public class LoginFragment extends Fragment {
         getView().findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: validate input fields
+                boolean validEntries = true;
+                if(!StringValidation.validateEmailAddress(email.getText().toString()))
+                {
+                    email.setError("Enter valid email address");
+                    validEntries = false;
+                }
+                if(!validEntries)
+                    return;
+
                 User user = new User(email.getText().toString(), password.getText().toString());
                 mListener.loginUser(user);
             }

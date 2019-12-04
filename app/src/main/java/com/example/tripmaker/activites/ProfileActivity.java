@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_CAMERA_CODE = 1000;
     boolean imageChanged = false;
     String imageChangedURL;
-
+    String gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         genderRG = findViewById(R.id.profGenderRG);
         maleRB = findViewById(R.id.profMaleRB);
         femaleRB = findViewById(R.id.profFemaleRB);
+        gender = currentUser.getGender().toString();
 
         leftCornerIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,9 +141,9 @@ public class ProfileActivity extends AppCompatActivity {
             GenderTV.setText(currentUser.getGender()!=null?currentUser.getGender().toString():"");
             firstNameET.setText(currentUser.getFirstName());
             lasrNameET.setText(currentUser.getLastName());
-            if(currentUser.getGender()!= null && currentUser.getGender().equals(Gender.MALE))
+            if(currentUser.getGender()!= null && currentUser.getGender().toString().equals(Gender.MALE.toString()))
                 maleRB.setChecked(true);
-            else
+            else if(currentUser.getGender()!= null)
                 femaleRB.setChecked(true);
         }
 
@@ -154,10 +155,30 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        genderRG.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.profMaleRB)
+                {
+                    currentUser.setGender(Gender.MALE);
+                    gender = "MALE";
+                }
+                else if(checkedId == R.id.profFemaleRB)
+                {
+                    currentUser.setGender(Gender.FEMALE);
+                    gender = "FEMALE";
+                }
+
+            }
+        });
     }
 
     private void storeUserInsharedPreferences(User user) {
 
+        if(gender.equals("MALE"))
+            user.setGender(Gender.MALE);
+        else if(gender.equals("FEMALE"))
+            user.setGender(Gender.FEMALE);
         SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = preferences.edit();
 
@@ -179,7 +200,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         reference.document(currentUser.getId()).update("lastName",lasrNameET.getText().toString());
         reference.document(currentUser.getId()).update("imageUrl",currentUser.getImageUrl());
-        reference.document(currentUser.getId()).update("gender",currentUser.getGender());
+        reference.document(currentUser.getId()).update("gender",gender);
 
         currentUser.setFirstName(firstNameET.getText().toString());
         currentUser.setLastName(lasrNameET.getText().toString());
@@ -210,6 +231,7 @@ public class ProfileActivity extends AppCompatActivity {
         lastNameTV.setVisibility(View.INVISIBLE);
         GenderTV.setVisibility(View.INVISIBLE);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

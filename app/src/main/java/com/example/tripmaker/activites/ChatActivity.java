@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -101,6 +102,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String msgTxt = messageView.getText().toString().trim();
+
+                if(TextUtils.isEmpty(msgTxt))   return;
+
                 if (msgTxt != null && msgTxt != "") {
                     Message msgToSend = new Message();
                     msgToSend.setId(String.valueOf(Calendar.getInstance().getTimeInMillis()));
