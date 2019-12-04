@@ -30,6 +30,7 @@ import com.example.tripmaker.models.Location;
 import com.example.tripmaker.models.Member;
 import com.example.tripmaker.models.Trip;
 import com.example.tripmaker.models.User;
+import com.example.tripmaker.utils.StringValidation;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -188,14 +189,44 @@ public class NewTripActivity extends AppCompatActivity {
     }
 
     private void createTrip() {
-        progressBar.setVisibility(View.VISIBLE);
+
+        boolean invalidEntry = false;
 
         final String tripName = tripNameET.getText().toString().trim();
-        String locationName = placeNameET.getText().toString().trim();
-        Double latitude = Double.parseDouble(latET.getText().toString().trim());
-        Double longitude = Double.parseDouble(lngET.getText().toString().trim());
+        if(!StringValidation.validarteName(tripName)){
+            tripNameET.setError("Enter valid trip name");
+            invalidEntry = true;
+        }
 
-        //TODO: Validations
+        String locationName = placeNameET.getText().toString().trim();
+        if(!StringValidation.validarteName(locationName)){
+            placeNameET.setError("Enter a valid location");
+            invalidEntry = true;
+        }
+
+        Double latitude = 0.0d;
+        Double longitude = 0.0d;
+
+        try{
+            latitude = Double.parseDouble(latET.getText().toString().trim());
+        }
+        catch(NumberFormatException ex){
+            latET.setError("Enter valid number");
+            invalidEntry = true;
+        }
+
+        try{
+            longitude = Double.parseDouble(lngET.getText().toString().trim());
+        }
+        catch(NumberFormatException ex){
+            lngET.setError("Enter valid number");
+            invalidEntry = true;
+        }
+
+        if(invalidEntry)
+            return;
+
+        progressBar.setVisibility(View.VISIBLE);
         Location location = new Location(latitude, longitude);
         Trip trip = new Trip();
         trip.setLocation(location);
@@ -203,7 +234,7 @@ public class NewTripActivity extends AppCompatActivity {
         trip.setDate(new Timestamp(new Date()));
         trip.setLocationName(locationName);
         trip.setCreatedByName(userObjSharedPref.getFirstName() + " " + userObjSharedPref.getLastName()); //TODO: Take from shared pref.
-        trip.setCreatedByEmail(userObjSharedPref.getEmail()); //TODO: Take from shared pref.
+        trip.setCreatedByEmail(userObjSharedPref.getEmail());
         trip.setCoverPhotoUrl(coverPicUrl);
         List<Member> members = new ArrayList<>();
         for (User user : selectedUsers) {
