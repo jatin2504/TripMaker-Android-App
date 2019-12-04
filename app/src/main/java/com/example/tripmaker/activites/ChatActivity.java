@@ -94,9 +94,8 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-
         getAllMessages();
-        recyclerView.scrollToPosition(messages.size()-1);
+        recyclerView.scrollToPosition(messages.size() - 1);
 
         findViewById(R.id.sendMsgBtn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +120,13 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(takePicture, CAPTURE_IMAGE_CAMERA_CODE);
+            }
+        });
+
+        findViewById(R.id.chatBackImg).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -164,12 +170,12 @@ public class ChatActivity extends AppCompatActivity {
                     messages = chatRoom.getMessages();
                     Collections.sort(messages, new Message.MessageSort());
                     JoinedTrip joinedTrip = null;
-                    for (JoinedTrip jt:currentUser.getTrips()){
-                        if(currentTrip.getId().equals(jt.getTripId()))
+                    for (JoinedTrip jt : currentUser.getTrips()) {
+                        if (currentTrip.getId().equals(jt.getTripId()))
                             joinedTrip = jt;
                     }
-                    if(joinedTrip!=null){
-                        messages = filterVisibleMessages(messages,joinedTrip);
+                    if (joinedTrip != null) {
+                        messages = filterVisibleMessages(messages, joinedTrip);
                     }
 
                     mAdapter = new ChatAdapter(messages, currentUser);
@@ -182,16 +188,16 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-    private static List<Message> filterVisibleMessages(List<Message> messages,JoinedTrip joinedTrip) {
+    private static List<Message> filterVisibleMessages(List<Message> messages, JoinedTrip joinedTrip) {
         int position = 0;
         for (int i = 0; i < messages.size(); i++) {
             Message m = messages.get(i);
-            if(m.getTimeStamp().getSeconds()>joinedTrip.getJoinedDate().getSeconds()){
+            if (m.getTimeStamp().getSeconds() > joinedTrip.getJoinedDate().getSeconds()) {
                 position = i;
                 break;
             }
         }
-        return messages.subList(position,messages.size());
+        return messages.subList(position, messages.size());
     }
 
 
