@@ -56,7 +56,7 @@
             android:layout_marginTop="30dp"
             android:ems="10"
             android:hint="@string/password_txt"
-            android:inputType="textPersonName"
+            android:inputType="textWebPassword"
             app:layout_constraintEnd_toEndOf="@+id/emailET"
             app:layout_constraintStart_toStartOf="@+id/emailET"
             app:layout_constraintTop_toBottomOf="@+id/emailET" />

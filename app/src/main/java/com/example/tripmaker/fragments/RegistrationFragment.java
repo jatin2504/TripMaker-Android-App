@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.RadioGroup;
 import com.example.tripmaker.R;
 import com.example.tripmaker.models.Gender;
 import com.example.tripmaker.models.User;
+import com.example.tripmaker.utils.StringValidation;
 
 public class RegistrationFragment extends Fragment {
 
@@ -76,17 +78,46 @@ public class RegistrationFragment extends Fragment {
         getView().findViewById(R.id.registerBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateForm();
-                User user = new User(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
-                        passWord.getText().toString(), gender);
+                if(!validateForm())
+                    return;
+                User user = new User(firstName.getText().toString().trim(), lastName.getText().toString().trim(), email.getText().toString().trim(),
+                        passWord.getText().toString().trim(), gender);
                 mListener.onClickRegister(user);
             }
         });
     }
 
     private boolean validateForm() {
-        //TODO: Add Vslidations
-        return false;
+        boolean validEntries = true;
+
+        if(!StringValidation.validarteName(firstName.getText().toString().trim()))
+        {
+            firstName.setError("Enter Valid name");
+            validEntries = false;
+        }
+
+        if(!StringValidation.validarteName(lastName.getText().toString().trim()))
+        {
+            lastName.setError("Enter Valid name");
+            validEntries = false;
+        }
+
+        if(!StringValidation.validateEmailAddress(email.getText().toString().trim())){
+            email.setError("Enter Valid Email Address");
+            validEntries = false;
+        }
+
+        if(TextUtils.isEmpty(passWord.getText().toString().trim())||passWord.getText().toString().trim().length()<6){
+            if(TextUtils.isEmpty(passWord.getText().toString()))
+                passWord.setError("Please enter a password");
+            else
+                passWord.setError("Password must be atleast 6 charachers long");
+
+            validEntries = false;
+        }
+
+
+        return validEntries;
     }
 
 

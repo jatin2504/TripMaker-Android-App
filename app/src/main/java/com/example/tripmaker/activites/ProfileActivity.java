@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.tripmaker.R;
 import com.example.tripmaker.models.Gender;
 import com.example.tripmaker.models.User;
+import com.example.tripmaker.utils.StringValidation;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -121,9 +122,11 @@ public class ProfileActivity extends AppCompatActivity {
                         currentUser.setGender(Gender.MALE);
                     else
                         currentUser.setGender(Gender.FEMALE);
-                    saveProfile();
-                    storeUserInsharedPreferences(currentUser);
-                    finish();
+                    if(saveProfile()){
+                        storeUserInsharedPreferences(currentUser);
+                        finish();
+                    }
+
                 } else {
                     edit = true;
                     showEdit();
@@ -189,7 +192,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void saveProfile() {
+    private boolean saveProfile() {
+        if(!validateEntries())
+            return false;
+
         db = FirebaseFirestore.getInstance();
         CollectionReference reference = db.collection("users");
         reference.document(currentUser.getId()).update("firstName",firstNameET.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -204,6 +210,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         currentUser.setFirstName(firstNameET.getText().toString());
         currentUser.setLastName(lasrNameET.getText().toString());
+
+        return true;
+    }
+
+    private boolean validateEntries() {
+        boolean validEntries = true;
+
+        if(!StringValidation.validarteName(firstNameET.getText().toString().trim())){
+            firstNameET.setError("Enter Valid Name");
+            validEntries = false;
+        }
+
+        if(!StringValidation.validarteName(lasrNameET.getText().toString().trim())){
+            lasrNameET.setError("Enter Valid Name");
+            validEntries = false;
+        }
+
+        return validEntries;
     }
 
     private void hideEdit() {
