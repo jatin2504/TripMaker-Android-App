@@ -178,7 +178,7 @@ public class NewTripActivity extends AppCompatActivity {
 
     private void storeUserInsharedPreferences(User user) {
 
-        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = preferences.edit();
 
         Gson gson = new Gson();
@@ -251,13 +251,14 @@ public class NewTripActivity extends AppCompatActivity {
                 tripId = documentReference.getId();
                 updateUserCollection();
                 createChatGroup(tripName);
-                userObjSharedPref.addTrip(new JoinedTrip(tripId,Timestamp.now()));
+                userObjSharedPref.addTrip(new JoinedTrip(tripId, Timestamp.now()));
                 storeUserInsharedPreferences(userObjSharedPref);
+                db.collection("trips").document(tripId).update("id", tripId);
                 progressBar.setVisibility(View.INVISIBLE);
                 finish();
-
             }
         });
+
 
     }
 
@@ -271,6 +272,13 @@ public class NewTripActivity extends AppCompatActivity {
             joinedTrip.setJoinedDate(new Timestamp(new Date()));
             batch.update(userRef, "trips", FieldValue.arrayUnion(joinedTrip));
         }
+
+        //Update current user
+        DocumentReference userRef = db.collection("users").document(userObjSharedPref.getId());
+        JoinedTrip joinedTrip = new JoinedTrip();
+        joinedTrip.setTripId(tripId);
+        joinedTrip.setJoinedDate(new Timestamp(new Date()));
+        batch.update(userRef, "trips", FieldValue.arrayUnion(joinedTrip));
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

@@ -17,7 +17,7 @@ import com.example.tripmaker.fragments.UsersFragment;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
-public class DashboardActivity extends AppCompatActivity implements AllTripsFragment.OnFragmentInteractionListener {
+public class DashboardActivity extends AppCompatActivity implements AllTripsFragment.OnFragmentInteractionListener, MyTripsFragment.OnFragmentInteractionListener {
 
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -35,12 +35,12 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
         allTripsTab = findViewById(R.id.allTripsTab);
-       // myTripsTab = findViewById(R.id.myTripsTab);
+        myTripsTab = findViewById(R.id.myTripsTab);
         usersTab = findViewById(R.id.usersTab);
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         pageAdapter.addFragment(new AllTripsFragment());
-        //pageAdapter.addFragment(new MyTripsFragment());
+        pageAdapter.addFragment(new MyTripsFragment());
         pageAdapter.addFragment(new UsersFragment());
         viewPager.setAdapter(pageAdapter);
 

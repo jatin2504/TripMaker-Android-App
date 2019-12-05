@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.Edits;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -35,6 +36,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class TripDetailsActivity extends AppCompatActivity {
@@ -156,6 +158,14 @@ public class TripDetailsActivity extends AppCompatActivity {
                 storeUserInsharedPreferences(userObjSharedPref);
             }
         });
+        Iterator<JoinedTrip> itr = userObjSharedPref.getTrips().iterator();
+        while (itr.hasNext()) {
+            JoinedTrip joinedTrip = itr.next();
+            if (joinedTrip.getTripId().equals(currentTrip.getId())) {
+                itr.remove();
+            }
+        }
+        storeUserInsharedPreferences(userObjSharedPref);
     }
 
     private void removeCurrentUserFromTrip() {
@@ -193,8 +203,20 @@ public class TripDetailsActivity extends AppCompatActivity {
 
             }
         });
+
+        Iterator<JoinedTrip> itr = userObjSharedPref.getTrips().iterator();
+        while (itr.hasNext()) {
+            JoinedTrip joinedTrip = itr.next();
+            if (joinedTrip.getTripId().equals(currentTrip.getId())) {
+                itr.remove();
+            }
+        }
+        storeUserInsharedPreferences(userObjSharedPref);
     }
 
+    /**
+     * TODO: Complete this function if not deleting the trip from member causes the issue.
+     */
     private void deleteTripFromUsers() {
         List<Member> members = currentTrip.getMembers();
         WriteBatch batch = db.batch();
@@ -221,7 +243,7 @@ public class TripDetailsActivity extends AppCompatActivity {
 
     private void storeUserInsharedPreferences(User user) {
 
-        SharedPreferences preferences = getSharedPreferences("mypref",MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = preferences.edit();
 
         Gson gson = new Gson();
