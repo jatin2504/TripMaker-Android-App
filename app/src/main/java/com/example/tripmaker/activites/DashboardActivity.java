@@ -1,11 +1,13 @@
 package com.example.tripmaker.activites;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -65,13 +67,7 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
         findViewById(R.id.logoutIV).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.mAuth.signOut();
-                SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
-                SharedPreferences.Editor prefsEditor = preferences.edit();
-                prefsEditor.clear();
-                Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                logout();
             }
         });
 
@@ -82,6 +78,32 @@ public class DashboardActivity extends AppCompatActivity implements AllTripsFrag
                 startActivity(intent);
             }
         });
+    }
+
+    private void logout() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Sign Out")
+                .setMessage("Do you want to sign out?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity.mAuth.signOut();
+                        SharedPreferences preferences = getSharedPreferences("mypref", MODE_PRIVATE);
+                        SharedPreferences.Editor prefsEditor = preferences.edit();
+                        prefsEditor.clear();
+                        Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+                .show();
     }
 
     private void clearPreferences() {

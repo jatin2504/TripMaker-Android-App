@@ -136,7 +136,6 @@ public class MyTripsFragment extends Fragment {
         progressBar = getView().findViewById(R.id.myTripsPB);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        Toast.makeText(getContext(), "All trips on create view", Toast.LENGTH_SHORT).show();
         getAllTrips();
         getView().findViewById(R.id.myTripsActionBtnChat).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -92,17 +93,20 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     private static String timeStampStringRepresentation(Timestamp timeStamp) {
-        StringBuilder result = new StringBuilder();
-        String suffix = "";
-        result.append(new SimpleDateFormat("MMM").format(timeStamp.toDate()) + " " + timeStamp.toDate().getDate() + " - ");
-        if (timeStamp.toDate().getHours() > 12) {
-            result.append(timeStamp.toDate().getHours() - 12);
-            suffix = "PM";
-        } else {
-            suffix = "AM";
-        }
-        result.append(":" + timeStamp.toDate().getMinutes()).append(" " + suffix);
-        return result.toString();
+        Date date = timeStamp.toDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd MMM hh:mm a");
+        return formatter.format(date);
+//        StringBuilder result = new StringBuilder();
+//        String suffix = "";
+//        result.append(new SimpleDateFormat("MMM").format(timeStamp.toDate()) + " " + timeStamp.toDate().getDate() + " - ");
+//        if (timeStamp.toDate().getHours() > 12) {
+//            result.append(timeStamp.toDate().getHours() - 12);
+//            suffix = "PM";
+//        } else {
+//            suffix = "AM";
+//        }
+//        result.append(":" + timeStamp.toDate().getMinutes()).append(" " + suffix);
+//        return result.toString();
     }
 
     public static class ReceivedTextViewHolder extends RecyclerView.ViewHolder {
@@ -153,7 +157,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void setDetails(Message message, int position, ChatAdapter adapter) {
             this.adapter = adapter;
             this.position = position;
-            message.setText(message.getText());
+            this.message.setText(message.getText());
             time.setText(timeStampStringRepresentation(message.getTimeStamp()));
         }
 

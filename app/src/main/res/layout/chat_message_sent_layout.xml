@@ -33,12 +33,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:minWidth="200dp"
                 android:maxWidth="350dp"
+                android:minWidth="200dp"
                 android:paddingLeft="5dp"
                 android:paddingTop="5dp"
                 android:paddingRight="50dp"
-                android:text="This is sample message"
                 android:textAlignment="viewStart"
                 android:textColor="#000000" />
 

@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.tripmaker.R;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
     private final int RC_SIGN_IN = 10001;
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseFirestore db;
-
+    private ProgressBar pb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
 //        Intent i1 = new Intent(MainActivity.this, ChatActivity.class);
 //        startActivity(i1);
 //        finish();
-
+        pb = findViewById(R.id.mainActivityPB);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         if (mAuth.getCurrentUser() == null) {
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
             mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         } else {
             Intent i = new Intent(MainActivity.this, DashboardActivity.class);
+            pb.setVisibility(View.INVISIBLE);
             startActivity(i);
             finish();
         }
@@ -94,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
 
     @Override
     public void loginUser(final User user) {
+        if(pb.getVisibility() == View.VISIBLE)
+            return;
+        pb.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -102,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                             Log.d("MainActivity", "signInWithEmail:success");
                             existsUser(user);
                         } else {
+                            pb.setVisibility(View.INVISIBLE);
                             Log.w("MainActivity", "signInWithEmail:failure", task.getException());
                             Toast.makeText(MainActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
@@ -112,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
 
     @Override
     public void signInWithGoogle() {
+        if(pb.getVisibility() == View.VISIBLE)
+            return;
+        pb.setVisibility(View.VISIBLE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -144,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                         user.setFirstName((documentSnapshot.getData().get("firstName") != null) ? documentSnapshot.getData().get("firstName").toString() : "");
                         user.setGender((documentSnapshot.getData().get("gender") != null) ? Gender.valueOf((String) documentSnapshot.getData().get("gender")) : null);
                         user.setImageUrl((documentSnapshot.getData().get("imageUrl") != null) ? documentSnapshot.getData().get("imageUrl").toString() : null);
-                        for(HashMap<String, Object> l1:(ArrayList<HashMap<String,Object>>)documentSnapshot.getData().get("trips")){
+                        for (HashMap<String, Object> l1 : (ArrayList<HashMap<String, Object>>) documentSnapshot.getData().get("trips")) {
                             JoinedTrip jt1 = new JoinedTrip();
                             jt1.setTripId(l1.get("tripId").toString());
                             jt1.setJoinedDate((Timestamp) l1.get("joinedDate"));
@@ -154,12 +164,14 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                         storeUserInSharedPred(user);
                         Intent i = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(i);
+                        pb.setVisibility(View.INVISIBLE);
                         finish();
                     } else {
                         saveUserData(user);
                     }
 
                 } else {
+                    pb.setVisibility(View.INVISIBLE);
                     Log.d("MainActivity", "Error getting documents: ", task.getException());
                 }
             }
@@ -169,8 +181,8 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("MainActivity", "firebaseAuthWithGoogle:" + acct.getId());
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        pb.setVisibility(View.VISIBLE);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -192,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
 
     @Override
     public void onClickRegister(final User user) {
+        if(pb.getVisibility() == View.VISIBLE)
+            return;
+        pb.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -216,6 +231,7 @@ public class MainActivity extends AppCompatActivity implements RegistrationFragm
                 user.setId(documentReference.getId());
                 storeUserInSharedPred(user);
                 Intent i = new Intent(MainActivity.this, DashboardActivity.class);
+                pb.setVisibility(View.INVISIBLE);
                 startActivity(i);
                 finish();
             }

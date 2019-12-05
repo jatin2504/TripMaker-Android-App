@@ -103,7 +103,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String msgTxt = messageView.getText().toString().trim();
 
-                if(TextUtils.isEmpty(msgTxt))   return;
+                if (TextUtils.isEmpty(msgTxt)) return;
 
                 if (msgTxt != null && msgTxt != "") {
                     Message msgToSend = new Message();
@@ -147,7 +147,7 @@ public class ChatActivity extends AppCompatActivity {
         msgRef.update("messages", FieldValue.arrayUnion(message)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
+                getAllMessages();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -193,15 +193,15 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private static List<Message> filterVisibleMessages(List<Message> messages, JoinedTrip joinedTrip) {
-        int position = 0;
+
+        List<Message> filterMessages = new ArrayList<>();
         for (int i = 0; i < messages.size(); i++) {
             Message m = messages.get(i);
-            if (m.getTimeStamp().getSeconds() > joinedTrip.getJoinedDate().getSeconds()) {
-                position = i;
-                break;
+            if (m.getTimeStamp().toDate().after(joinedTrip.getJoinedDate().toDate())) {
+                filterMessages.add(m);
             }
         }
-        return messages.subList(position, messages.size());
+        return filterMessages;
     }
 
 
